@@ -145,8 +145,6 @@ def connectMqtt():
     client.on_disconnect = onDisconnect
     return client
 
-
-
 # JK ESS PB BMS Record Type 1 - Config Details 0x1000
 def getConfig (data):
     logging.debug(f"getConfig Function")
@@ -204,22 +202,23 @@ def getConfig (data):
     config['CellConWireRes13'] = int.from_bytes(dataOnly[188:192], byteorder='little')
     config['CellConWireRes14'] = int.from_bytes(dataOnly[192:196], byteorder='little')
     config['CellConWireRes15'] = int.from_bytes(dataOnly[196:200], byteorder='little')
-    config['CellConWireRes16'] = int.from_bytes(dataOnly[200:204], byteorder='little')
-    config['CellConWireRes17'] = int.from_bytes(dataOnly[204:208], byteorder='little')
-    config['CellConWireRes18'] = int.from_bytes(dataOnly[208:212], byteorder='little')
-    config['CellConWireRes19'] = int.from_bytes(dataOnly[212:216], byteorder='little')
-    config['CellConWireRes20'] = int.from_bytes(dataOnly[216:220], byteorder='little')
-    config['CellConWireRes21'] = int.from_bytes(dataOnly[220:224], byteorder='little')
-    config['CellConWireRes22'] = int.from_bytes(dataOnly[224:228], byteorder='little')
-    config['CellConWireRes23'] = int.from_bytes(dataOnly[228:232], byteorder='little')
-    config['CellConWireRes24'] = int.from_bytes(dataOnly[232:236], byteorder='little')
-    config['CellConWireRes25'] = int.from_bytes(dataOnly[236:240], byteorder='little')
-    config['CellConWireRes26'] = int.from_bytes(dataOnly[240:244], byteorder='little')
-    config['CellConWireRes27'] = int.from_bytes(dataOnly[244:248], byteorder='little')
-    config['CellConWireRes28'] = int.from_bytes(dataOnly[248:252], byteorder='little')
-    config['CellConWireRes29'] = int.from_bytes(dataOnly[252:256], byteorder='little')
-    config['CellConWireRes30'] = int.from_bytes(dataOnly[256:260], byteorder='little')
-    config['CellConWireRes31'] = int.from_bytes(dataOnly[260:264], byteorder='little')
+    # skip Cel 16-31
+    # config['CellConWireRes16'] = int.from_bytes(dataOnly[200:204], byteorder='little')
+    # config['CellConWireRes17'] = int.from_bytes(dataOnly[204:208], byteorder='little')
+    # config['CellConWireRes18'] = int.from_bytes(dataOnly[208:212], byteorder='little')
+    # config['CellConWireRes19'] = int.from_bytes(dataOnly[212:216], byteorder='little')
+    # config['CellConWireRes20'] = int.from_bytes(dataOnly[216:220], byteorder='little')
+    # config['CellConWireRes21'] = int.from_bytes(dataOnly[220:224], byteorder='little')
+    # config['CellConWireRes22'] = int.from_bytes(dataOnly[224:228], byteorder='little')
+    # config['CellConWireRes23'] = int.from_bytes(dataOnly[228:232], byteorder='little')
+    # config['CellConWireRes24'] = int.from_bytes(dataOnly[232:236], byteorder='little')
+    # config['CellConWireRes25'] = int.from_bytes(dataOnly[236:240], byteorder='little')
+    # config['CellConWireRes26'] = int.from_bytes(dataOnly[240:244], byteorder='little')
+    # config['CellConWireRes27'] = int.from_bytes(dataOnly[244:248], byteorder='little')
+    # config['CellConWireRes28'] = int.from_bytes(dataOnly[248:252], byteorder='little')
+    # config['CellConWireRes29'] = int.from_bytes(dataOnly[252:256], byteorder='little')
+    # config['CellConWireRes30'] = int.from_bytes(dataOnly[256:260], byteorder='little')
+    # config['CellConWireRes31'] = int.from_bytes(dataOnly[260:264], byteorder='little')
     config['DevAddr'] = int.from_bytes(dataOnly[264:268], byteorder='little')
     config['TIMProdischarge'] = int.from_bytes(dataOnly[268:272], byteorder='little')
     CfgEnable = bitarray()
@@ -239,97 +238,7 @@ def getConfig (data):
 
     # Return Dict with all values
     return config
-record_01 = cs.Struct(
-    "VolSmartSleep" / cs.Int32ul,
-    "VolCellUV" / cs.Int32ul,
-    "VolCellUVPR" / cs.Int32ul,
-    "VolCellOV" / cs.Int32ul,
-    "VolCellOVPR" / cs.Int32ul,
-    "VolBalanTrig" / cs.Int32ul,
-    "VolSOC100%" / cs.Int32ul,
-    "VolSOC0%" / cs.Int32ul,
-    "VolCellRCV" / cs.Int32ul,
-    "VolCellRFV" / cs.Int32ul,
-    "VolSysPwrOff" / cs.Int32ul,
-    "CurBatCOC" / cs.Int32ul,
-    "TIMBatCOCPDly" / cs.Int32ul,
-    "TIMBatCOCPRDly" / cs.Int32ul,
-    "CurBatDcOC" / cs.Int32ul,
-    "TIMBatDcOCPDly" / cs.Int32ul,
-    "TIMBatDcOCPRDly" / cs.Int32ul,
-    "TIMBatSCPRDly" / cs.Int32ul,
-    "CurBalanMax" / cs.Int32ul,
-    "TMPBatCOT" / cs.Int32sl,
-    "TMPBatCOTPR" / cs.Int32sl,
-    "TMPBatDcOT" / cs.Int32sl,
-    "TMPBatDcOTPR" / cs.Int32sl,
-    "TMPBatCUT" / cs.Int32sl,
-    "TMPBatCUTPR" / cs.Int32sl,
-    "TMPMosOT" / cs.Int32sl,
-    "TMPMosOTPR" / cs.Int32sl,
-    "CellCount" / cs.Int32ul,
-    "BatChargeEN" / cs.Int32ul,
-    "BatDisChargeEN" / cs.Int32ul,
-    "BalanEN" / cs.Int32ul,
-    "CapBatCell" / cs.Int32ul,
-    "SCPDelay" / cs.Int32ul,
-    "VolStartBalan" / cs.Int32ul,
-    "0CellConWireRes0" / cs.Int32ul,
-    "1CellConWireRes1" / cs.Int32ul,
-    "2CellConWireRes2" / cs.Int32ul,
-    "3CellConWireRes3" / cs.Int32ul,
-    "4CellConWireRes4" / cs.Int32ul,
-    "5CellConWireRes5" / cs.Int32ul,
-    "6CellConWireRes6" / cs.Int32ul,
-    "7CellConWireRes7" / cs.Int32ul,
-    "8CellConWireRes8" / cs.Int32ul,
-    "9CellConWireRes9" / cs.Int32ul,
-    "10CellConWireRes10" / cs.Int32ul,
-    "11CellConWireRes11" / cs.Int32ul,
-    "12CellConWireRes12" / cs.Int32ul,
-    "13CellConWireRes13" / cs.Int32ul,
-    "14CellConWireRes14" / cs.Int32ul,
-    "15CellConWireRes15" / cs.Int32ul,
-    "16CellConWireRes16" / cs.Int32ul,
-    "17CellConWireRes17" / cs.Int32ul,
-    "18CellConWireRes18" / cs.Int32ul,
-    "19CellConWireRes19" / cs.Int32ul,
-    "20CellConWireRes20" / cs.Int32ul,
-    "21CellConWireRes21" / cs.Int32ul,
-    "22CellConWireRes22" / cs.Int32ul,
-    "23CellConWireRes23" / cs.Int32ul,
-    "24CellConWireRes24" / cs.Int32ul,
-    "25CellConWireRes25" / cs.Int32ul,
-    "26CellConWireRes26" / cs.Int32ul,
-    "27CellConWireRes27" / cs.Int32ul,
-    "28CellConWireRes28" / cs.Int32ul,
-    "29CellConWireRes29" / cs.Int32ul,
-    "30CellConWireRes30" / cs.Int32ul,
-    "31CellConWireRes31" / cs.Int32ul,
-    "DevAddr" / cs.Int32ul,
-    "TIMProdischarge" / cs.Int32ul,
-    "CfgEnable" / cs.BitStruct(
-        HeatEN=cs.Enum(cs.Bit, DISABLED=0, Closed=1),
-        DisableTempSensor=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        GPSHeartbeat=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        PortSwitch=cs.Enum(cs.Bit, CAN=0, RS485=1),
-        LCDAlwaysOn=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        SpecialCharger=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        SmartSleep=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        DisablePCLModule=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        TimedStoredData=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        ChargingFloatMode=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit10=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit11=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit12=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit13=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit14=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-        UnusedBit15=cs.Enum(cs.Bit, DISABLED=0, ENABLED=1),
-    ),
-    "TIMSmartSleep" / cs.Int8ul,
-    "FieldEnableControl0" / cs.Int8ul,
-    #"rest" / cs.GreedyBytes,
-)
+
 # JK ESS PB BMS Record Type 2 - Status Details 0x1200
 def getState (data):
     logging.debug(f"getState Function")
@@ -337,8 +246,6 @@ def getState (data):
     # strip header
     dataOnly = data[6:]
     # Data Byte 0 with 
-    #print(f"Normal    Len:{len(data)}: {data.hex()}")
-    #print(f"Data Only Len:{len(data[6:])}: {data[6:].hex()}")
     state['CellVol0'] = int.from_bytes(dataOnly[0:2], byteorder='little')
     state['CellVol1'] = int.from_bytes(dataOnly[2:4], byteorder='little')
     state['CellVol2'] = int.from_bytes(dataOnly[4:6], byteorder='little')
@@ -503,122 +410,20 @@ def getState (data):
     # Return Dict with all values
     return state
 
-record_02 = cs.Struct(
-    "cell_voltage_array" / cs.Array(32, cs.Int16ul),
-    "cell_presence" / cs.BitStruct("cells" / cs.Array(32, cs.Enum(cs.Bit, not_present=0, present=1))),
-    "CellVolAve" / cs.Int16ul,
-    "CellVdifMax" / cs.Int16ul,
-    "MaxVolCellNbr" / cs.Byte,
-    "MinVolCellNbr" / cs.Byte,
-    "cell_resistance_array" / cs.Array(32, cs.Int16ul),
-    "TempMos" / cs.Int16ul,
-    "CellWireResStatus" / cs.BitStruct("cells:" / cs.Array(32, cs.Enum(cs.Bit, OK=0, ALARM=1))),
-    "BatVoltage" / cs.Int32ul,
-    "BatWatt" / cs.Int32ul,
-    "BatCurrent" / cs.Int32sl,
-    "TempBat1" / cs.Int16ul,
-    "TempBat2" / cs.Int16ul,
-    "Alarms" / cs.BitStruct(
-        AlarmWireRes=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmMosOTP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmCellQuantity=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmCurSensorErr=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmCellOVP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmBatOVP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmChOCP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmChSCP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmChOTP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmChUTP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmCPUAuxCommuErr=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmCellUVP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmBatUVP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmDchOCP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmDchSCP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmDchOTP=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmChargeMOS=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        AlarmDischargeMOS=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        GPSDisconneted=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        ModifyPWDinTime=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        DischargeOnFailed=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        BatteryOverTemp=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        TemperatureSensorAnomaly=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        PLCModuleAnomaly=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit24=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit25=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit26=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit27=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit28=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit29=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit30=cs.Enum(cs.Bit, OK=0, ALARM=1),
-        UnusedBit31=cs.Enum(cs.Bit, OK=0, ALARM=1)
-    ),
-    "BalanCurrent" / cs.Int16sl,
-    "BalanStatus" /  cs.Enum(cs.Int8ul, off=0, charge=1, discharge=2),
-    "SOCStateOfCharge" / cs.Int8ul,
-    "SOCCapRemain" / cs.Int32ul,
-    "SOCFullChargeCap" / cs.Int32ul,
-    "SOCCycleCount" / cs.Int32ul,
-    "SOCCycleCap" / cs.Int32ul,
-    "SOCSOH" / cs.Int8ul,
-    "Precharge" /  cs.Enum(cs.Int8ul, closed=0, open=1),
-    "UserAlarm" / cs.Int16sl,
-    "Runtime" / cs.Int32ul,
-    "Charge" /  cs.Enum(cs.Int8ul, closed=0, open=1),
-    "Discharge" /  cs.Enum(cs.Int8ul, closed=0, open=1),
-    "UserAlarm2" / cs.Int16sl,
-    "TimeDcOCPR" / cs.Int16ul,
-    "TimeDcSCPR" / cs.Int16ul,
-    "TimeCOCPR" / cs.Int16ul,
-    "TimeCSCPR" / cs.Int16ul,
-    "TimeUVPR" / cs.Int16ul,
-    "TimeOVPR" / cs.Int16ul,
-    "SensorAlarms" / cs.BitStruct(
-        MOSTempSensorAbsent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        BATTempSensor1Absent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        BATTempSensor2Absent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        BATTempSensor3Absent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        BATTempSensor4Absent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        BATTempSensor5Absent=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        Unusedbit6=cs.Enum(cs.Bit, OK=1, ALARM=0),
-        Unusedbit7=cs.Enum(cs.Bit, OK=1, ALARM=0),
-    ),
-    "Heating" /  cs.Enum(cs.Int8ul, closed=0, open=1),
-    "Reseved210" / cs.Bytes(16),
-    "TimeEmergency" / cs.Int16ul,
-    "BatDisCurCorrect" / cs.Int16ul,
-    "VolChargCur" / cs.Int16ul,
-    "VolDischargCur" / cs.Int16ul,
-    "BatDisCurCorrect" / cs.Float32b,
-    "BatVol" / cs.Int16ul,
-    "HeatCurrent" / cs.Int16ul,
-    "RVD" / cs.Int8ul,
-    "ChargerPlugged" /  cs.Enum(cs.Int8ul, disconnected=0, connected=1),
-    "SysRunTicks" / cs.Int32ul,
-    "TempBat3" / cs.Int16ul,
-    "TempBat4" / cs.Int16ul,
-    "TempBat5" / cs.Int16ul,
-    "RTCTicks" / cs.Int32ul,
-    "TimeEnterSleep" / cs.Int32ul,
-    "PCLModuleSta" /  cs.Enum(cs.Int8ul, closed=0, open=1),
-     # "rest" / cs.GreedyBytes,
-)
-
-
 # JK ESS PB BMS Record Type 3 - Device Details 0x1400
-record_03 = cs.Struct(
-    "ManufacturerDeviceID" / cs.PaddedString(16, "utf8"),
-    "HardwareVersion" / cs.PaddedString(8, "utf8"),
-    "SoftwareVersion" / cs.PaddedString(8, "utf8"),
-    "ODDRunTime" / cs.Int32ul,
-    "PWROnTimes" / cs.Int32ul,
-     "rest" / cs.GreedyBytes,
-)
-jkess_definition = cs.Struct(
-   "header" / cs.Bytes(4),
-   "record_type" / cs.Byte,
-   "record_source" / cs.Enum(cs.Byte, Master=0, Slave=5),
-   "data" / cs.Switch(cs.this.record_type, {1: record_01, 2: record_02, 3: record_03}),
-)
+def getInfo (data):
+    logging.debug(f"getInfo Function")
+    info = {}
+    # strip header
+    dataOnly = data[6:]
+    # Data Byte 0 with 
+    info['ManufacturerDeviceID'] = type(dataOnly[0:16])
+    info['HardwareVersion'] = type(dataOnly[16:24])
+    info['SoftwareVersion'] = type(dataOnly[24:32])
+    info['ODDRunTime'] = int.from_bytes(dataOnly[32:36], byteorder='little')
+    info['PWROnTimes'] = int.from_bytes(dataOnly[36:40], byteorder='little')
+    # Return infor dict
+    return info
 
 def read_serial(port, baudrate, buffer_size):
     ser = serial.Serial(port, baudrate)
@@ -632,9 +437,11 @@ def read_serial(port, baudrate, buffer_size):
         while True:
             # Read a chunk of data from the serial port
             data = ser.read_all()
+
             # Check if there is data to read from the serial
             if len(data) > 1:
                 # Identify Modbus FC16 (0x10) Write Multiple registers Request
+
                 # Request size: UnitIdentifier (1) + FunctionCode (1) + WriteAddress (2) + WriteQuantity (2) + WriteByteCount (1) + WriteData (n) + CRC (2)
                 if (len(data) in [11]) and data.hex()[2:4] in ['10']:
                     id = int(data.hex()[:2],16)
@@ -648,12 +455,15 @@ def read_serial(port, baudrate, buffer_size):
                     resultCrc16 = calcCrc16(data, 7+int(writeByteQount,16))
                     crcOK = crc16 == resultCrc16
                     logging.debug(f"Write Multiple registers Request ID: {id} FC{fc} writeAddr:{writeAddr} writeQty:{writeQty} writeByteQount:{writeByteQount} writeData:{writeData} crcOK:{crcOK} {len(data)}bytes: {data.hex()}")
+                    
                     # Identify Write Register Config data Request 
                     if crcOK and writeAddr == '161e':
                         logging.debug(f"Master 0 Request Config Data Slave ID: {id} Addr:{writeAddr} {len(data)}bytes: {data.hex()}")
+                    
                     # Identify Write Register Status data Request 
                     if crcOK and writeAddr == '1620':
                         logging.debug(f"Master 0 Request Status Data Slave ID: {id} Addr:{writeAddr} {len(data)}bytes: {data.hex()}")
+               
                 # Identify Modbus FC16 (0x10) Write Multiple registers Response
                 # Responce size: UnitIdentifier (1) + FunctionCode (1) + WriteAddress (2) + WriteQuantity (2) + CRC (2)
                 elif (len(data) in [8]) and data.hex()[2:4] in ['10']:
@@ -665,9 +475,11 @@ def read_serial(port, baudrate, buffer_size):
                     resultCrc16 = calcCrc16(data, 6)
                     crcOK = crc16 == resultCrc16
                     logging.debug(f"Write Multiple registers Response ID: {id} FC{fc} writeAddr:{writeAddr} writeQty:{writeQty} crcOK:{crcOK} {len(data)}bytes: {data.hex()}")
+                    
                     # Identify Write Register Config data Response 
                     if crcOK and writeAddr == '161e':
                         logging.debug(f"Slave ID: {id} Response -> Master 0 Config Data Addr:{writeAddr} {len(data)}bytes: {data.hex()}")
+                    
                     # Identify Write Register Status data Response 
                     if crcOK and writeAddr == '1620':
                         logging.debug(f"Slave ID: {id} Response -> Master 0 Status Data Addr:{writeAddr} {len(data)}bytes: {data.hex()}")
@@ -683,6 +495,7 @@ def read_serial(port, baudrate, buffer_size):
                     logging.debug(f"Debug Frag {fragCount}: {data.hex()}")
                     data = b''
                     fragCount = fragCount - 1
+                
                 # If fragment assemble was started and still being assembled    
                 elif (frag and fragCount > 0):
                     if data:
@@ -690,6 +503,7 @@ def read_serial(port, baudrate, buffer_size):
                         logging.debug(f"Fragment {fragCount} {len(data)}bytes: {data.hex()}")
                         data = b''
                         fragCount = fragCount - 1
+                
                 # If last fragment detected and final assembly need to be done
                 elif (frag and fragCount == 0):
                     allData += data
@@ -699,6 +513,7 @@ def read_serial(port, baudrate, buffer_size):
                     allData = b''
                     fragCount = 0
                     frag = False
+                    
                     # Identify Data packets 300bytes and bigger with valid checksum
                     if len(data) >= 300 and data[299] == calcCheckSum8Mod256(data):
                         # Parse JK ESS BMS Record data
@@ -727,24 +542,28 @@ def read_serial(port, baudrate, buffer_size):
                         if recordType == 1:
                             currentData[id]['config'] = getConfig(data)
                             logging.info(f"Config Data {recordSource}-> ID: {id}, Type: {recordType}, Device Addr: {currentData[id]['config'].get('DevAddr',None)} Cells: {currentData[id]['config'].get('CellCount',None)} Checksum: {hex(data[299])} CmpChecksum: {hex(calcCheckSum8Mod256(data))}")
-                            logging.debug(f"Device: {id} State: {currentData[id]['config']}")
+                            logging.debug(f"Device: {id} Type: {recordType} State: {currentData[id]['config']}")
+                        
                         # Record Type 2 is used for State data
                         if recordType == 2:
                             currentData[id]['state'] = getState(data)
                             logging.info(f"State Data {recordSource}-> ID: {id}, Type: {recordType}, SoC: {currentData[id]['state'].get('SOCStateOfCharge',None)}% Checksum: {hex(data[299])} CmpChecksum: {hex(calcCheckSum8Mod256(data))}")
                             logging.debug(f"Device: {id} State: {currentData[id]['state']}")
+                        
                         # Record Type 3 is used for Device Info Data
                         if recordType == 3:
-                            #logging.info(f"{result.record_source}-> ID: {id}, Type: {result.record_type}, Source: {result.record_source}, DeviceID: {result.data.ManufacturerDeviceID} HW_Ver: {result.data.HardwareVersion} SW_Ver: {result.data.SoftwareVersion}")
-                            logging.debug(f"Raw Data Record Type 3: ID: {id} Rx-{len(data)}bytes: {data.hex()}")
+                            currentData[id]['info'] = getInfo(data)
+                            logging.info(f"Info Data {recordSource}-> ID: {id}, Type: {recordType}, MnfDeviceID: {currentData[id]['info'].get('ManufacturerDeviceID',None)}% Checksum: {hex(data[299])} CmpChecksum: {hex(calcCheckSum8Mod256(data))}")
+                            logging.debug(f"Device: {id} Type: {recordType} Info: {currentData[id]['info']}")
+                            logging.debug(f"Raw Data Record Type 3 Info: ID: {id} Rx-{len(data)}bytes: {data.hex()}")
+                    # packets not 300bytes or bigger with correct checksum
                     else:
-                        logging.critical(f"BAD Checksum Device ID: {id} Packet Lenght:{len(data)} Data: {data.hex()}")
+                        logging.error(f"BAD Checksum Device ID: {id} Packet Lenght:{len(data)} Data: {data.hex()}")
+                # packets not matching any of the checks
                 else:
                     logging.debug(f"DEBUG: UNKNOWN Packet {len(data)}bytes Data: {data.hex()}")
             ###############################################
-            #print(f"{currentData}")
-                
-
+                    
     except serial.SerialException as e:
         logging.error("Serial port error:", e)
     finally:
